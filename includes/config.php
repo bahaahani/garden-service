@@ -10,7 +10,7 @@ class config
     //Localhost Db information
     private $host = "localhost";
     private $user = "root";
-    private $pass = "";
+    private $pass = "your_new_password";
     private $dbnm = "servicesystem";
     //   
 
@@ -33,9 +33,9 @@ class config
 
         $options = array(
 
-                PDO::ATTR_PERSISTENT => true,
+            PDO::ATTR_PERSISTENT => true,
 
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 
         );
 
