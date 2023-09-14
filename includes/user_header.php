@@ -2,39 +2,39 @@
 //Open ob_start and session_start functions
 ob_start();
 session_start();
-try{
-    $dbname ='mysql:host=localhost;dbname=servicesystem;charset=utf8';
+try {
+    $dbname = 'mysql:host=localhost;dbname=servicesystem;charset=utf8';
     $user = 'root';
-    $pass = '';
+    $pass = 'abcd1234';
 
     $connecto = new PDO($dbname, $user, $pass);
-    $connecto->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+    $connecto->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt_search = $connecto->prepare("SELECT id,name FROM service");
     $stmt_search->execute();
     $row_search = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
-    $connecto =null;
-} catch (PDOException $ex){
+    $connecto = null;
+} catch (PDOException $ex) {
     echo "Error Occured!";
     die($ex->getMessage());
 }
 ?>
 <script>
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("search_cont");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("search_cont");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
         }
     }
-}
 </script>
 <!-- Navigation
     ==========================================-->
@@ -70,7 +70,9 @@ function myFunction() {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">Search <i class="fa fa-search"></i></a>
+                        <a class="nav-link" aria-current="page" style="cursor: pointer;" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">Search <i
+                                class="fa fa-search"></i></a>
                     </li>
                     <?php
                     if (isset($_SESSION['activeUser'])) {
@@ -78,13 +80,13 @@ function myFunction() {
                         <li class="nav-item">
                             <a class="nav-link" href="logout.php">Logout</a>
                         </li>
-                        <?php #hello
+                    <?php #hello
                     } else {
                         ?>
                         <li class="nav-item">
                             <a class="nav-link" href="Login.php">Log in</a>
                         </li>
-                        <?php } ?>
+                    <?php } ?>
                     <?php
                     if (isset($_SESSION['activeUser'])) {
                         ?>
@@ -104,18 +106,22 @@ function myFunction() {
         </div>
     </nav>
 </div>
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasNavbar"
+    aria-labelledby="offcanvasNavbarLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Search for Service  <i class="fa fa-search"></i></h5>
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Search for Service <i class="fa fa-search"></i></h5>
         <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <input class="form-control mb-4" type="search" placeholder="Search" aria-label="Search" id="myInput" onkeyup="myFunction()">
+        <input class="form-control mb-4" type="search" placeholder="Search" aria-label="Search" id="myInput"
+            onkeyup="myFunction()">
         <ul class="navbar-nav justify-content-end flex-grow-1 p-2 pe-3" id="search_cont">
-            <?php foreach($row_search as $srch){ ?>
-            <li class="nav-item">
-                <a class="nav-link mb-3" aria-current="page" style="border: 1px solid;padding: 10px 20px; background-color:#333;border-radius:8px;" href="serviceDetails.php?id=<?php echo $srch['id'] ?>"><?php echo $srch['name']; ?></a>
-            </li>
+            <?php foreach ($row_search as $srch) { ?>
+                <li class="nav-item">
+                    <a class="nav-link mb-3" aria-current="page"
+                        style="border: 1px solid;padding: 10px 20px; background-color:#333;border-radius:8px;"
+                        href="serviceDetails.php?id=<?php echo $srch['id'] ?>"><?php echo $srch['name']; ?></a>
+                </li>
             <?php } ?>
         </ul>
     </div>

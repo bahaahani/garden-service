@@ -10,7 +10,7 @@ class config
     //Localhost Db information
     private $host = "localhost";
     private $user = "root";
-    private $pass = "your_new_password";
+    private $pass = "abcd1234";
     private $dbnm = "servicesystem";
     //   
 
