@@ -86,8 +86,14 @@ if (isset($_POST['sb'])) {
             $cpsERR = "Passwords must match";
       } else {
             try {
-                  $db = new PDO('mysql:host=localhost;dbname=serviceSystem;charset=utf8', 'root', '');
-                  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                     $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
                   $query = "SELECT * FROM user WHERE email='$email'";
                   $rs = $db->query($query);
                   $result = $rs->rowCount();

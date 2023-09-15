@@ -3,20 +3,35 @@
 ob_start();
 session_start();
 try {
-    $dbname = 'mysql:host=localhost;dbname=servicesystem;charset=utf8';
-    $user = 'root';
-    $pass = 'abcd1234';
+    $dbname = 'mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8';
+    $user = 'servicesystem';
+    $pass = 'm96nABJhYMp7Qf';
+    $ca_cert = 'DigiCertGlobalRootCA.crt.pem'; // Replace with the actual path to your CA certificate file
 
-    $connecto = new PDO($dbname, $user, $pass);
-    $connecto->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt_search = $connecto->prepare("SELECT id,name FROM service");
+    $pdoOptions = [
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+
+        $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt_search = $pdo->prepare("SELECT id, name FROM service");
     $stmt_search->execute();
-    $row_search = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
-    $connecto = null;
+    $results = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
+
+    // Process the $results array here if needed...
+
+    // The database connection will be automatically closed when the script finishes.
 } catch (PDOException $ex) {
-    echo "Error Occured!";
+    echo "Error Occurred!";
     die($ex->getMessage());
 }
+
 ?>
 <script>
     function myFunction() {

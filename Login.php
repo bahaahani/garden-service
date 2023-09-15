@@ -11,10 +11,16 @@ $ERRmsg = "";
 if (isset($_POST['sb'])) {
     session_start();
     //Include functions
+
     include('includes/functions.php');
     try {
-        $db = new PDO('mysql:host=localhost;dbname=serviceSystem;charset=utf8', 'root', '');
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+     $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $email = test_input($_POST['email']);
         if (!preg_match("/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/", $email)) {
             $ERRmsg = "Invalid email format, please enter a valid email";

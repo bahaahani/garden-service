@@ -11,7 +11,7 @@ $count = 0;
 
 try {
 
-  $db = new PDO('mysql:host=localhost;dbname=serviceSystem;charset=utf8', 'root', '');
+    $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf');
   $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
   $id = $_GET['id'];
@@ -78,8 +78,14 @@ Established in 2016, we provide unique garden solutions, Land services, Landscap
 <body>
   <?php
   require('includes/user_header.php');
-  $db = new PDO('mysql:host=localhost;dbname=serviceSystem;charset=utf8', 'root', '');
-  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+     $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 
   if (isset($_POST['rating']) && isset($_POST['message'])) {
     $user_id = $_SESSION['user_data']['id'];

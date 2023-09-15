@@ -2,10 +2,31 @@
 session_start();
 date_default_timezone_set("Asia/Bahrain");
 if(isset($_POST['checkDate'])){
-    try{
-        $dbname ='mysql:host=localhost;dbname=servicesystem;charset=utf8';
-        $user = 'root';
-        $pass = '';
+try {
+    $dbname = 'mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8';
+    $user = 'servicesystem';
+    $pass = 'm96nABJhYMp7Qf';
+    $ca_cert = 'DigiCertGlobalRootCA.crt.pem'; // Replace with the actual path to your CA certificate file
+
+    $pdoOptions = [
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+
+     $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt_search = $pdo->prepare("SELECT id, name FROM service");
+    $stmt_search->execute();
+    $results = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
+
+    // Process the $results array here if needed...
+
+    // The database connection will be automatically closed when the script finishes.
     
         $db = new PDO($dbname, $user, $pass);
         $db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);

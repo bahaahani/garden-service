@@ -8,10 +8,10 @@ class config
 
 
     //Localhost Db information
-    private $host = "localhost";
-    private $user = "root";
-    private $pass = "abcd1234";
-    private $dbnm = "servicesystem";
+    private $host = "phpdb1.mysql.database.azure.com";
+    private $user = "servicesystem";
+    private $pass = "m96nABJhYMp7Qf";
+    private $dbnm = "servicesql";
     //   
 
     //Handle our connection

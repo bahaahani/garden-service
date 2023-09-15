@@ -3,22 +3,27 @@
 ob_start();
 $service_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
 try {
-    $dbname = 'mysql:host=localhost;dbname=servicesystem;charset=utf8';
-    $user = 'root';
-    $pass = '';
+    $dbname = 'mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8';
+    $user = 'servicesystem';
+    $pass = 'm96nABJhYMp7Qf';
+    $ca_cert = 'DigiCertGlobalRootCA.crt.pem'; // Replace with the actual path to your CA certificate file
 
-    $db = new PDO($dbname, $user, $pass);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdoOptions = [
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
 
-    $stmt = $db->prepare("SELECT * FROM service WHERE id=:id");
-    $stmt->bindParam(":id", $service_id);
-    $stmt->execute();
-    if (!$row = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]) {
-        header("Location: services.php?id=$service_id");
-        die();
-    }
+    $pdo = new PDO($dbname, $user, $pass, $pdoOptions);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt_search = $pdo->prepare("SELECT id, name FROM service");
+    $stmt_search->execute();
+    $results = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
+
+    // Process the $results array here if needed...
+
+    // The database connection will be automatically closed when the script finishes.
 } catch (PDOException $ex) {
-    echo "Error Occured!";
+    echo "Error Occurred!";
     die($ex->getMessage());
 }
 ?>

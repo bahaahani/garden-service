@@ -19,12 +19,19 @@ $avregoh = 0.0;
 //require database class files
 require('includes/config.php');
 try {
-    $dbname = 'mysql:host=localhost;dbname=servicesystem;charset=utf8';
-    $user = 'root';
-    $pass = '';
+    $host = 'phpdb1.mysql.database.azure.com';
+    $dbname = 'servicesysql';
+    $user = 'servicesystem';
+    $pass = 'm96nABJhYMp7Qf';
 
-    $connecto = new PDO($dbname, $user, $pass);
-    $connecto->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::MYSQL_ATTR_SSL_CA => '\DigiCertGlobalRootCA.crt.pem', // Path to your CA certificate
+    ];
+
+    $pdo = new PDO($dsn, $user, $pass, $options);
     $stmt_user_book = $connecto->prepare("SELECT * FROM booking WHERE user=:us_ido");
     $stmt_total_book = $connecto->prepare("SELECT * FROM booking");
     $stmt_srv_price = $connecto->prepare("SELECT id,price FROM service WHERE id=:srvo_id");

@@ -18,21 +18,32 @@ $id = $_GET['cid'];
 //require database class files
 require('includes/config.php');
 try {
-    $dbname = 'mysql:host=localhost;dbname=servicesystem;charset=utf8';
-    $user = 'root';
-    $pass = '';
+    $dbname = 'mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8';
+    $user = 'servicesystem';
+    $pass = 'm96nABJhYMp7Qf';
+    $ca_cert = 'DigiCertGlobalRootCA.crt.pem'; // Replace with the actual path to your CA certificate file
 
-    $connecto = new PDO($dbname, $user, $pass);
-    $connecto->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $stmt_user_book = $connecto->prepare("SELECT * FROM booking WHERE user=:us_ido");
-    $stmt_srv_details = $connecto->prepare("SELECT name,price FROM service WHERE id=:srvoh");
-    $stmt_user_book->bindParam(':us_ido', $id);
-    $stmt_user_book->execute();
-    $row_user_book = $stmt_user_book->fetchAll(PDO::FETCH_ASSOC);
+    $pdoOptions = [
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
 
-    $connecto = null;
+     $ca_cert = 'DigiCertGlobalRootCA.crt.pem';
+        $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::MYSQL_ATTR_SSL_CA => $ca_cert,
+    ];
+  $db = new PDO('mysql:host=phpdb1.mysql.database.azure.com;dbname=servicesql;charset=utf8', 'servicesystem', 'm96nABJhYMp7Qf',$options);    
+  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt_search = $pdo->prepare("SELECT id, name FROM service");
+    $stmt_search->execute();
+    $results = $stmt_search->fetchAll(PDO::FETCH_ASSOC);
+
+    // Process the $results array here if needed...
+
+    // The database connection will be automatically closed when the script finishes.
 } catch (PDOException $ex) {
-    echo "Error Occured!";
+    echo "Error Occurred!";
     die($ex->getMessage());
 }
 
